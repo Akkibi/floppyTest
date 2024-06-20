@@ -12,7 +12,7 @@ function Main() {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     return (...args: any[]) => {
       clearTimeout(timeoutId);
