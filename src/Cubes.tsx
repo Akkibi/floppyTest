@@ -6,10 +6,11 @@ import { useGLTF } from "@react-three/drei";
 
 interface CubesProps {
   currentPosition: number;
-  setPosition?: React.Dispatch<React.SetStateAction<number>>;
+  setPosition: React.Dispatch<React.SetStateAction<number>>;
+  ammount: number;
 }
 
-const Cubes = ({ currentPosition }: CubesProps) => {
+const Cubes = ({ currentPosition, setPosition, ammount }: CubesProps) => {
   const meshRefs = useRef<THREE.Mesh[]>([]);
   let spacing = 3;
   if (window.innerWidth < 768) {
@@ -48,12 +49,14 @@ const Cubes = ({ currentPosition }: CubesProps) => {
         overwrite: true,
       });
     });
-  }, [currentPosition]);
-  const items = Array.from({ length: 10 }).map((_, i) => {
+  }, [currentPosition, meshRefs.current]);
+
+  const items = Array.from({ length: ammount }).map((_, i) => {
     return (
       <group
         dispose={null}
         key={i}
+        onClick={() => setPosition(i)}
         ref={(el: any) => {
           if (el) meshRefs.current[i] = el;
         }}
