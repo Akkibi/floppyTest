@@ -46,6 +46,20 @@ function Main() {
     });
   }, 50);
 
+  let touchStart = 0;
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    if (e.changedTouches[0].clientX > touchStart) {
+      setPosition((prev) => Math.max(prev - 1, 0));
+    } else {
+      setPosition((prev) => Math.min(prev + 1, ammount - 1));
+    }
+    console.log(e.changedTouches[0].clientX, touchStart);
+  };
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStart = e.touches[0].clientX;
+  };
+
   const changeAmmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmmount(parseInt(e.currentTarget.value));
   };
@@ -72,7 +86,11 @@ function Main() {
   useEffect(() => {
     window.addEventListener("wheel", handleScroll);
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchend", handleTouchEnd);
     return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
     };
