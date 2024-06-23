@@ -9,6 +9,7 @@ import Cubes from "./Cubes.tsx";
 function Main() {
   const [position, setPosition] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const numberOnScreenRef = useRef<HTMLHeadingElement>(null);
   const [ammount, setAmmount] = useState(5);
 
   const debounce = (func: Function, delay: number) => {
@@ -83,6 +84,12 @@ function Main() {
         <p className="text-xl font-black">Hello i'm Akira Valade</p>
         <h2 className="text-sm">
           This is a fun project to introduce myself to React Three fiber + GSAP
+          <br />
+          {window.innerWidth > 768 ? (
+            <>Move the mouse wheel or use the arrow keys to navigate</>
+          ) : (
+            <>Scroll to navigate</>
+          )}
         </h2>
         <input
           onChange={(e) => {
@@ -97,6 +104,12 @@ function Main() {
           max="100"
         />
       </div>
+      <h1
+        className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 font-black text-white text-8xl opacity-15"
+        ref={numberOnScreenRef}
+      >
+        {position + 1}
+      </h1>
       <Canvas>
         <ambientLight intensity={0.5} color="white" />
         <directionalLight color="white" position={[2, 2, 5]} />
