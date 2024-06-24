@@ -7,10 +7,11 @@ import { useEffect, useRef, useState } from "react";
 import Cubes from "./Cubes.tsx";
 
 function Main() {
-  const [position, setPosition] = useState(0);
+  const [position, setPosition] = useState<number>(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const numberOnScreenRef = useRef<HTMLHeadingElement>(null);
-  const [ammount, setAmmount] = useState(5);
+  const [ammount, setAmmount] = useState<number>(5);
+  const minSipeMovement: number = window.innerWidth / 10;
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -49,12 +50,13 @@ function Main() {
   let touchStart = 0;
 
   const handleTouchEnd = (e: TouchEvent) => {
+    if (Math.abs(e.changedTouches[0].clientX - touchStart) < minSipeMovement)
+      return;
     if (e.changedTouches[0].clientX > touchStart) {
       setPosition((prev) => Math.max(prev - 1, 0));
     } else {
       setPosition((prev) => Math.min(prev + 1, ammount - 1));
     }
-    console.log(e.changedTouches[0].clientX, touchStart);
   };
   const handleTouchStart = (e: TouchEvent) => {
     touchStart = e.touches[0].clientX;
