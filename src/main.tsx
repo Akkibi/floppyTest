@@ -96,7 +96,7 @@ function Main() {
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  });
+  }, []);
 
   return (
     <div className="h-full w-full" ref={rootRef}>
